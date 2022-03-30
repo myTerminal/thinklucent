@@ -6,7 +6,7 @@
 [![Coverage Status](https://img.shields.io/coveralls/myTerminal/thinklucent.svg)](https://coveralls.io/r/myTerminal/thinklucent?branch=master)  
 [![License](https://img.shields.io/github/license/myTerminal/thinklucent.svg)](https://opensource.org/licenses/MIT)
 
-A simple implementation for automatic keyboard backlight in Linux for ThinkPad (and beyond)
+A simple implementation for automatic keyboard backlight in Linux for ThinkPad (and beyond) [IN-PROGRESS]
 
 ## Background
 
