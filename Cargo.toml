@@ -1,0 +1,17 @@
+[package]
+name = "thinklucent"
+version = "0.1.0"
+authors = ["Mohammed Ismail Ansari <team.terminal@gmail.com>"]
+edition = "2021"
+description = "A simple implementation for automatic keyboard backlight in Linux for ThinkPad"
+readme = "README.md"
+repository = "https://github.com/myTerminal/thinklucent"
+documentation = "https://docs.rs/thinklucent"
+homepage = "https://github.com/myTerminal/thinklucent"
+license = "MIT"
+keywords = ["keyboard", "hardware"]
+categories = ["hardware-support"]
+
+[dependencies]
+clap = "3.1.6"
+mki = "0.2.1"
