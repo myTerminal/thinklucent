@@ -5,9 +5,11 @@
 
 (use-package '#:cl-inotify)
 
+(defconstant +delay+ 10)
+
 (defun main ()
   "The main entry point to the program."
-  (let ((count 10))
+  (let ((count +delay+))
     (bt:make-thread
      (lambda ()
        (loop
@@ -18,5 +20,5 @@
 
     (with-inotify (inotify T ("/dev/input" :all-events))
       (do-events (event inotify :blocking-p T)
-        (setf count 10)
+        (setf count +delay+)
         (enable-or-disable-lights t)))))
