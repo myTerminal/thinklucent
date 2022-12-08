@@ -6,6 +6,23 @@ endif
 MANPREFIX := $(PREFIX)/share/man
 QUICKLISP_DIR := ~/quicklisp
 
+define SYSTEMD_SERVICE_CONTENTS
+[Unit]
+Description=thinklucent service
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=root
+ExecStart=$(PREFIX)/bin/thinklucent
+
+[Install]
+WantedBy=multi-user.target
+endef
+export SYSTEMD_SERVICE_CONTENTS
+
 help:
 	@echo "Use one of the following options:"
 	@echo " - install"
@@ -78,6 +95,12 @@ ifneq ($(shell command -v runit),)
 	sudo ln -s $(PREFIX)/bin/thinklucent /etc/sv/thinklucent/run
 	sudo ln -s /etc/sv/thinklucent /var/service
 	@echo "Runit service created and started."
+else ifneq ($(shell command -v systemctl),)
+	@echo "'SystemD' found. Attempting to create a service..."
+	@echo "$$SYSTEMD_SERVICE_CONTENTS" | sudo tee /etc/systemd/system/thinklucent.service
+	systemctl enable thinklucent.service
+	systemctl start thinklucent.service
+	@echo "SystemD service created and started."
 else
 	@echo "No known init system found."
 endif
@@ -89,8 +112,14 @@ uninstall:
 	@echo "Uninstalling thinklucent..."
 	sudo rm $(PREFIX)/bin/thinklucent*
 	sudo rm $(MANPREFIX)/man1/thinklucent.1
+ifneq ($(shell command -v runit),)
 	sudo rm -rf /var/service/thinklucent
 	sudo rm -rf /etc/sv/thinklucent
+else ifneq ($(shell command -v systemctl),)
+	systemctl stop thinklucent.service
+	systemctl disable thinklucent.service
+	sudo rm -rf /etc/systemd/system/thinklucent.service
+endif
 	@echo "thinklucent has been uninstalled."
 
 reinstall: uninstall install

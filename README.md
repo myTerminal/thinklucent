@@ -75,5 +75,5 @@ The other required programs are as follows:
 
 ## To-do
 
-* Add support for more init systems like SystemD, OpenRC, SysVinit, etc.
+* Add support for more init systems like OpenRC, SysVinit, etc.
 * Support for more hardware
