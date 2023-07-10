@@ -30,36 +30,35 @@ help:
 	@echo " - reinstall"
 	@echo " - update"
 
+crater-get:
+	@echo "Setting up Crater for temporary use..."
+	git clone https://github.com/crater-space/cli /tmp/crater-cli
+
 primary-deps:
 	@echo "Making sure SBCL is installed..."
 ifneq ($(shell command -v sbcl),)
 	@echo "SBCL found."
-else ifneq ($(shell command -v xbps-query),)
-	sudo xbps-install -Syu sbcl
-else ifneq ($(shell command -v pacman),)
-    sudo pacman -Sy sbcl
-else ifneq ($(shell command -v dnf),)
-    sudo dnf install -y sbcl
-else ifneq ($(shell command -v apt),)
-    sudo apt install -y sbcl
 else
-	@echo "Could not determine steps to install SBCL! Please install SBCL and try again."
-	exit 1
+	@echo "SBCL not found!"
+	@echo "Attemping to install SBCL using Crater..."
+	/tmp/crater-cli/crater install sbcl
 endif
 
 secondary-deps:
-	@echo "Installing optional dependencies..."
-ifneq ($(shell command -v xbps-query),)
-	sudo xbps-install -Syu libfixposix-devel
-else ifneq ($(shell command -v beep),)
-	sudo pacman -Sy libfixposix
-else ifneq ($(shell command -v beep),)
-	sudo dnf install -y libfixposix
-else ifneq ($(shell command -v beep),)
-	sudo apt install -y libfixposix-dev
+	@echo "Looking for 'libfixposix'..."
+ifneq ($(shell command -v libfixposix),)
+	@echo "'libfixposix' found."
 else
-	@echo "Could not install some dependencies! Please install manually."
+	@echo "'libfixposix' not found!"
+	@echo "Attemping to install 'libfixposix' using Crater..."
+	/tmp/crater-cli/crater install libfixposix
 endif
+
+crater-remove:
+	@echo "Removing Crater..."
+	rm -rf /tmp/crater-cli
+
+req: crater-get primary-deps secondary-deps crater-remove
 
 quicklisp:
 ifeq ("$(wildcard $(QUICKLISP_DIR))", "")
@@ -106,7 +105,7 @@ else
 	@echo "No known init system found."
 endif
 
-install: primary-deps secondary-deps quicklisp binary place manpage service
+install: req quicklisp binary place manpage service
 	@echo "thinklucent is now installed."
 
 uninstall:
