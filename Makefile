@@ -40,7 +40,7 @@ ifneq ($(shell command -v sbcl),)
 	@echo "SBCL found."
 else
 	@echo "SBCL not found!"
-	@echo "Attemping to install SBCL using Crater..."
+	@echo "Attempting to install SBCL using Crater..."
 	/tmp/crater-cli/crater install sbcl
 endif
 
@@ -50,7 +50,7 @@ ifneq ($(shell command -v libfixposix),)
 	@echo "'libfixposix' found."
 else
 	@echo "'libfixposix' not found!"
-	@echo "Attemping to install 'libfixposix' using Crater..."
+	@echo "Attempting to install 'libfixposix' using Crater..."
 	/tmp/crater-cli/crater install libfixposix
 endif
 
