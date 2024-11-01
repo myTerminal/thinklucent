@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+git clone https://github.com/myTerminal/thinklucent /tmp/thinklucent
+(cd /tmp/thinklucent; make install)
+rm -rf /tmp/thinklucent

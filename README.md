@@ -27,6 +27,12 @@ There are a few different ways to get *thinklucent*.
     # Install with `make`
     make install
 
+### Automatic installation
+
+Simply execute the below command in a terminal; the rest should be automatic.
+
+    /bin/bash -c "$(curl https://raw.githubusercontent.com/myTerminal/thinklucent/main/install)"
+
 ### Through a package manager
 
 *thinklucent* will soon be available to install from your operating system's package manager.
